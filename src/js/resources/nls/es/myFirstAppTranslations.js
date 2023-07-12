@@ -1,0 +1,5 @@
+define({
+  inputs: {
+    firstName: "Nombre",
+  },
+});
