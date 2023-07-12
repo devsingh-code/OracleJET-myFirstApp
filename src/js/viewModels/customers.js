@@ -12,12 +12,12 @@ define([
   "knockout",
   "utils/Core",
   "ojs/ojasyncvalidator-length",
+  "ojs/ojarraydataprovider",
   "ojs/ojinputtext",
   "ojs/ojinputnumber",
   "ojs/ojformlayout",
-  "ojs/ojdatetimepicker",
-  "ojs/ojarraydataprovider"
-], function (ko, CoreUtils, AsyncLengthValidator) {
+  "ojs/ojdatetimepicker"
+], function (ko, CoreUtils, AsyncLengthValidator, ArrayDataProvider) {
   function CustomerViewModel() {
     this._initAllLabels();
     this._initAllIds();
@@ -70,7 +70,9 @@ define([
       severity: "info"
     };
 
-    this.inputCountryDataprovider = {};
+    this.inputCountryDataprovider = new ArrayDataProvider([], {
+      keyAttributes: "value"
+    });
   };
   /**
    * @function _initAllLabels
