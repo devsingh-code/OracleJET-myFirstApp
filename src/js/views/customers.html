@@ -4,77 +4,109 @@
  as shown at https://oss.oracle.com/licenses/upl/
  -->
 <div class="oj-hybrid-padding">
-  <oj-form-layout
-    class="oj-formlayout-full-width"
-    id="formLayoutOptions"
-    max-columns="3"
-    direction="row"
-    user-assistance-density="efficient"
-  >
-    <oj-input-text
-      :id="[[inputFirstNameId]]"
-      value="{{inputFirstNameValue}}"
-      on-value-changed="[[onInputFirstNameValueChange]]"
-      on-raw-value-changed="[[onInputFirstNameRawValueChange]]"
-      validators="[[inputFirstNameValidators]]"
-      required=""
-      label-hint="[[inputFirstNameLabel]]"
-      label-edge="inside"
-    ></oj-input-text>
+  <oj-validation-group :id="[[formValidationGroupId]]">
+    <oj-form-layout
+      class="oj-formlayout-full-width"
+      id="formLayoutOptions"
+      max-columns="3"
+      direction="row"
+      user-assistance-density="efficient"
+    >
+      <oj-input-text
+        :id="[[inputFirstNameId]]"
+        value="{{inputFirstNameValue}}"
+        on-value-changed="[[onInputFirstNameValueChange]]"
+        on-raw-value-changed="[[onInputFirstNameRawValueChange]]"
+        validators="[[inputFirstNameValidators]]"
+        required=""
+        label-hint="[[inputFirstNameLabel]]"
+        label-edge="inside"
+      ></oj-input-text>
 
-    <oj-input-text
-      :id="[[inputLastNameId]]"
-      value="{{inputLastNameValue}}"
-      disabled="[[isInputLastNameDisabled]]"
-      label-hint="[[inputLastNameLabel]]"
-      label-edge="inside"
-    ></oj-input-text>
+      <oj-input-text
+        :id="[[inputLastNameId]]"
+        value="{{inputLastNameValue}}"
+        disabled="[[isInputLastNameDisabled]]"
+        label-hint="[[inputLastNameLabel]]"
+        label-edge="inside"
+      ></oj-input-text>
 
-    <oj-input-text
-      :id="[[inputFullNameId]]"
-      value="[[inputFullNameValue]]"
-      readonly=""
-      label-hint="[[inputFullNameLabel]]"
-      label-edge="inside"
-    ></oj-input-text>
+      <oj-input-text
+        :id="[[inputFullNameId]]"
+        value="{{inputFullNameValue}}"
+        disabled=""
+        label-hint="[[inputFullNameLabel]]"
+        label-edge="inside"
+      ></oj-input-text>
 
-    <oj-input-number
-      :id="[[inputAgeId]]"
-      value="{{inputAgeValue}}"
-      disabled=""
-      label-hint="[[inputAgeLabel]]"
-      label-edge="inside"
-    ></oj-input-number>
+      <oj-input-number
+        :id="[[inputAgeId]]"
+        value="{{inputAgeValue}}"
+        disabled=""
+        label-hint="[[inputAgeLabel]]"
+        label-edge="inside"
+      ></oj-input-number>
 
-    <oj-input-number
-      :id="[[inputWeightId]]"
-      messages-custom="[[inputWeightMessagesCustom]]"
-      value="[[inputWeightValue]]"
-      step="1"
-      min="0"
-      on-raw-value-changed="[[onInputWeightRawValueChange]]"
-      label-hint="[[inputWeightLabel]]"
-      label-edge="inside"
-    ></oj-input-number>
+      <oj-input-number
+        :id="[[inputWeightId]]"
+        messages-custom="[[inputWeightMessagesCustom]]"
+        value="{{inputWeightValue}}"
+        step="1"
+        min="0"
+        on-raw-value-changed="[[onInputWeightRawValueChange]]"
+        label-hint="[[inputWeightLabel]]"
+        label-edge="inside"
+      ></oj-input-number>
 
-    <oj-input-date
-      :id="[[inputBirthdayId]]"
-      value="{{inputBirthdayValue}}"
-      on-value-changed="[[onInputBirthdayValueChange]]"
-      messages-custom="[[inputBirthdayMessagesCustom]]"
-      max="[[inputBirthdayMaxValue]]"
-      label-hint="[[inputBirthdayLabel]]"
-      autocomplete="off"
-    ></oj-input-date>
+      <oj-input-date
+        :id="[[inputBirthdayId]]"
+        value="{{inputBirthdayValue}}"
+        on-value-changed="[[onInputBirthdayValueChange]]"
+        messages-custom="[[inputBirthdayMessagesCustom]]"
+        max="[[inputBirthdayMaxValue]]"
+        label-hint="[[inputBirthdayLabel]]"
+        autocomplete="off"
+      ></oj-input-date>
 
-    <oj-select-single
+      <oj-select-single
+        :id="[[inputCountryId]]"
+        value="{{inputCountryValue}}"
+        on-value-changed="[[onInputCountryValueChange]]"
+        label-hint="[[inputCountryLabel]]"
+        data="[[inputCountryDataProvider]]"
+      ></oj-select-single>
+
+      <oj-select-single
+        :id="[[inputStateId]]"
+        value="{{inputStateValue}}"
+        label-hint="[[inputStateLabel]]"
+        data="[[inputStateDataProvider]]"
+        disabled="[[isInputStateDisabled]]"
+      ></oj-select-single>
+
+      <!-- <oj-select-many
       :id="[[inputCountryId]]"
-      value="{{inputCountryValue}}"
       label-hint="[[inputCountryLabel]]"
-      data="[[inputCountryDataProvider]]"
-    ></oj-select-single>
-  </oj-form-layout>
-  <span>
-    <oj-bind-text value="[[inputBirthdayValue]]"></oj-bind-text>
-  </span>
+      value="{{inputCountryValue}}"
+      options="[[inputCountryDataProvider]]"
+    ></oj-select-many> -->
+    </oj-form-layout>
+  </oj-validation-group>
+
+  <div class="oj-flex oj-sm-flex-items-initial oj-sm-justify-content-flex-end">
+    <div class="oj-flex-item oj-sm-padding-2x-horizontal">
+      <oj-button on-oj-action="[[onResetButtonClick]]">
+        <span>
+          <oj-bind-text value="[[resetButtonLabel]]"></oj-bind-text>
+        </span>
+      </oj-button>
+      <oj-button on-oj-action="[[onCreateButtonClick]]">
+        <span>
+          <oj-bind-text value="[[createButtonLabel]]"></oj-bind-text>
+        </span>
+      </oj-button>
+    </div>
+  </div>
+
+  <span><oj-bind-text value="[[inputCountryValue]]"></oj-bind-text></span>
 </div>

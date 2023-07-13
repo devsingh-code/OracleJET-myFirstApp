@@ -16,11 +16,15 @@ define([
   "ojs/ojinputtext",
   "ojs/ojinputnumber",
   "ojs/ojformlayout",
-  "ojs/ojdatetimepicker"
+  "ojs/ojdatetimepicker",
+  "ojs/ojselectsingle",
+  "ojs/ojselectcombobox",
+  "ojs/ojbutton",
+  "ojs/ojvalidationgroup"
 ], function (ko, CoreUtils, AsyncLengthValidator, ArrayDataProvider) {
   function CustomerViewModel() {
-    this._initAllLabels();
     this._initAllIds();
+    this._initAllLabels();
     this._initVariables();
     this._initAllObservables();
     this._initValidators();
@@ -30,6 +34,11 @@ define([
     this.onInputFirstNameRawValueChange = this._onInputFirstNameRawValueChange.bind(this);
     this.onInputWeightRawValueChange = this._onInputWeightRawValueChange.bind(this);
     this.onInputBirthdayValueChange = this._onInputBirthdayValueChange.bind(this);
+    this.onInputCountryValueChange = this._onInputCountryValueChange.bind(this);
+
+    //Button actions
+    this.onCreateButtonClick = this._onCreateButtonClick.bind(this);
+    this.onResetButtonClick = this._onResetButtonClick.bind(this);
   }
 
   /**
@@ -69,10 +78,6 @@ define([
       summary: "",
       severity: "info"
     };
-
-    this.inputCountryDataprovider = new ArrayDataProvider([], {
-      keyAttributes: "value"
-    });
   };
   /**
    * @function _initAllLabels
@@ -85,7 +90,10 @@ define([
     this.inputAgeLabel = "Age";
     this.inputWeightLabel = "Weight";
     this.inputBirthdayLabel = "BirthDate";
-    this.inputCountryLabel = "Select Country";
+    this.inputCountryLabel = "Country";
+    this.inputStateLabel = "State";
+    this.createButtonLabel = "Create";
+    this.resetButtonLabel = "Reset";
   };
 
   /**
@@ -100,6 +108,10 @@ define([
     this.inputWeightId = CoreUtils.generateUniqueId();
     this.inputBirthdayId = CoreUtils.generateUniqueId();
     this.inputCountryId = CoreUtils.generateUniqueId();
+    this.inputStateId = CoreUtils.generateUniqueId();
+
+    //validation group ID
+    this.formValidationGroupId = CoreUtils.generateUniqueId();
   };
   /**
    * @function _initAllObservables
@@ -110,36 +122,157 @@ define([
     this.inputLastNameValue = ko.observable();
     this.inputFullNameValue = ko.observable();
     this.inputAgeValue = ko.observable();
-    this.isInputLastNameDisabled = ko.observable(true);
     this.inputWeightValue = ko.observable();
     this.inputBirthdayValue = ko.observable();
     this.inputCountryValue = ko.observable();
+    this.inputStateValue = ko.observable();
     //messages custom
     this.inputWeightMessagesCustom = ko.observableArray([]);
     this.inputBirthdayMessagesCustom = ko.observableArray([this.birthdayMessage]);
 
-    //update full name value
-    this.inputFullNameValue = ko.computed(function () {
-      if (this.inputFirstNameValue() && this.inputLastNameValue()) {
-        return `${this.inputFirstNameValue()} ${this.inputLastNameValue()}`;
-      }
+    // disabled
+    this.isInputLastNameDisabled = ko.observable(true);
+    this.inputLastNameValue.subscribe(
+      function (_) {
+        this.inputFullNameValue(`${this.inputFirstNameValue()} ${this.inputLastNameValue()}`);
+      }.bind(this)
+    );
+    //state disabled
+    this.isInputStateDisabled = ko.observable(true);
 
-      return "";
-    }, this);
+    //dataproviders
+    this.inputCountryDataProvider = ko.observable(
+      new ArrayDataProvider(
+        [
+          {
+            value: "IN",
+            label: "India"
+          },
+          {
+            value: "US",
+            label: "America"
+          },
+          {
+            value: "UK",
+            label: "England"
+          },
+          {
+            value: "UAE",
+            label: "Dubai"
+          }
+        ],
+        {
+          keyAttributes: "value"
+        }
+      )
+    );
+
+    this.inputStateDataProvider = ko.observable(
+      new ArrayDataProvider([], {
+        keyAttributes: "value"
+      })
+    );
   };
 
   /**
    * @function _onInputFirstNameValueChange
+   * @description Handles the input on value change event
+   */
+
+  CustomerViewModel.prototype._onInputFirstNameValueChange = function (event) {
+    const value = event.detail.value;
+    if (value) {
+      this.isInputLastNameDisabled(false);
+      return;
+    }
+    this.isInputLastNameDisabled(true);
+  };
+
+  /**
+   * @function _onInputCountryValueChange
    * @description
    */
 
-  CustomerViewModel.prototype._onInputFirstNameValueChange = function () {
-    this.isInputLastNameDisabled = ko.computed(function () {
-      if (this.inputFirstNameValue()) {
-        return false;
+  CustomerViewModel.prototype._onInputCountryValueChange = function (event) {
+    const value = event.detail.value;
+
+    if (value) {
+      this.inputStateValue(null);
+      let statesArray;
+      if (value === "IN") {
+        statesArray = [
+          {
+            value: "RJ",
+            label: "Rajasthan"
+          },
+          {
+            value: "UKH",
+            label: "Uttrakhand"
+          },
+          {
+            value: "MP",
+            label: "Madhya Pradesh"
+          },
+          {
+            value: "NDLS",
+            label: "New Delhi"
+          }
+        ];
+      } else {
+        statesArray = [
+          {
+            value: "1",
+            label: "Lisbon"
+          },
+          {
+            value: "2",
+            label: "Porto"
+          }
+        ];
       }
-      return true;
-    }, this);
+      this.isInputStateDisabled(false);
+      this.inputStateDataProvider(
+        new ArrayDataProvider(statesArray, {
+          keyAttributes: "value"
+        })
+      );
+    } else {
+      this.isInputStateDisabled(true);
+      this.inputStateDataProvider(
+        new ArrayDataProvider([], {
+          keyAttributes: "value"
+        })
+      );
+    }
+  };
+
+  /**
+   * @function _onCreateButtonClick
+   * @description Executed when user clicks create button
+   */
+
+  CustomerViewModel.prototype._onCreateButtonClick = function () {
+    const valid = CoreUtils.checkValidationGroup(this.formValidationGroupId);
+    if (valid) {
+      alert("Saving Contact Details");
+    }
+  };
+
+  /**
+   * @function _onResetButtonClick
+   * @description Executred when user clicks reset button
+   */
+
+  CustomerViewModel.prototype._onResetButtonClick = function () {
+    this.inputFirstNameValue(null);
+    this.inputLastNameValue(null);
+    this.inputFullNameValue(null);
+    this.inputAgeValue(null);
+    this.isInputLastNameDisabled(null);
+    this.inputWeightValue(null);
+    this.inputBirthdayValue(null);
+    this.inputCountryValue(null);
+    this.inputStateValue(null);
   };
 
   /**
