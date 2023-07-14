@@ -7,7 +7,7 @@
  * as shown at https://oss.oracle.com/licenses/upl/
  */
 
-define(["utils/Service"], function (ServiceUtils) {
+define([], function () {
   class CustomersServices {
     /**
      * @method
@@ -21,8 +21,15 @@ define(["utils/Service"], function (ServiceUtils) {
      * @param {Object} customer The customer data to save.
      * @returns {Promise} Promise with the service response.
      */
-    async saveCustomer(customer) {
-      return await ServiceUtils.fetchData("getCustomers", "POST", customer);
+    saveCustomer(params) {
+      console.log(params);
+      return new Promise(function (resolve, reject) {
+        setTimeout(() => {
+          resolve({
+            success: Math.random() < 0.5
+          });
+        }, 2000);
+      });
     }
   }
 

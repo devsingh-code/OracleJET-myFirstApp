@@ -11,6 +11,7 @@
 define([
   "knockout",
   "utils/Core",
+  "services/CustomersServices",
   "ojs/ojasyncvalidator-length",
   "ojs/ojarraydataprovider",
   "ojs/ojinputtext",
@@ -22,7 +23,7 @@ define([
   "ojs/ojbutton",
   "ojs/ojvalidationgroup",
   "ojs/ojmessages"
-], function (ko, CoreUtils, AsyncLengthValidator, ArrayDataProvider) {
+], function (ko, CoreUtils, CustomerServices, AsyncLengthValidator, ArrayDataProvider) {
   function CustomerViewModel() {
     this._initAllIds();
     this._initAllLabels();
@@ -257,19 +258,35 @@ define([
    * @description Executed when user clicks create button
    */
 
-  CustomerViewModel.prototype._onCreateButtonClick = function () {
+  CustomerViewModel.prototype._onCreateButtonClick = async function () {
     const valid = CoreUtils.checkValidationGroup(this.formValidationGroupId);
     if (valid) {
-      this.messagesDataprovider(
-        new ArrayDataProvider([
-          {
-            severity: "confirmation",
-            detail: "Saved Successfully",
-            timestamp: new Date().toISOString(),
-            autoTimeout: CoreUtils.getAutoTimeout()
-          }
-        ])
-      );
+      const jsonServiceRequest = {
+        firstName: this.inputFirstNameValue(),
+        lastName: this.inputLastNameValue(),
+        weight: this.inputWeightValue(),
+        birthday: this.inputBirthdayValue(),
+        country: this.inputCountryValue(),
+        state: this.inputStateValue()
+      };
+      let dataFromService;
+      try {
+        dataFromService = await CustomerServices.saveCustomer(jsonServiceRequest);
+        console.log(dataFromService);
+      } catch (error) {
+        console.log(error);
+      }
+
+      // this.messagesDataprovider(
+      //   new ArrayDataProvider([
+      //     {
+      //       severity: "confirmation",
+      //       detail: "Saved Successfully",
+      //       timestamp: new Date().toISOString(),
+      //       autoTimeout: CoreUtils.getAutoTimeout()
+      //     }
+      //   ])
+      // );
     }
   };
 
