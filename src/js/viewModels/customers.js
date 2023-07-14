@@ -20,7 +20,8 @@ define([
   "ojs/ojselectsingle",
   "ojs/ojselectcombobox",
   "ojs/ojbutton",
-  "ojs/ojvalidationgroup"
+  "ojs/ojvalidationgroup",
+  "ojs/ojmessages"
 ], function (ko, CoreUtils, AsyncLengthValidator, ArrayDataProvider) {
   function CustomerViewModel() {
     this._initAllIds();
@@ -78,6 +79,9 @@ define([
       summary: "",
       severity: "info"
     };
+
+    //this.messagesDataProvider = new ArrayDataProvider(this.messages);
+    this.messagesPosition = CoreUtils.toastMessagePosition();
   };
   /**
    * @function _initAllLabels
@@ -129,6 +133,8 @@ define([
     //messages custom
     this.inputWeightMessagesCustom = ko.observableArray([]);
     this.inputBirthdayMessagesCustom = ko.observableArray([this.birthdayMessage]);
+
+    this.messagesDataprovider = ko.observable(new ArrayDataProvider([]));
 
     // disabled
     this.isInputLastNameDisabled = ko.observable(true);
@@ -254,7 +260,16 @@ define([
   CustomerViewModel.prototype._onCreateButtonClick = function () {
     const valid = CoreUtils.checkValidationGroup(this.formValidationGroupId);
     if (valid) {
-      alert("Saving Contact Details");
+      this.messagesDataprovider(
+        new ArrayDataProvider([
+          {
+            severity: "confirmation",
+            detail: "Saved Successfully",
+            timestamp: new Date().toISOString(),
+            autoTimeout: CoreUtils.getAutoTimeout()
+          }
+        ])
+      );
     }
   };
 

@@ -42,7 +42,6 @@
       <oj-input-number
         :id="[[inputAgeId]]"
         value="{{inputAgeValue}}"
-        disabled=""
         label-hint="[[inputAgeLabel]]"
         label-edge="inside"
       ></oj-input-number>
@@ -95,12 +94,12 @@
 
   <div class="oj-flex oj-sm-flex-items-initial oj-sm-justify-content-flex-end">
     <div class="oj-flex-item oj-sm-padding-2x-horizontal">
-      <oj-button on-oj-action="[[onResetButtonClick]]">
+      <oj-button on-oj-action="[[onResetButtonClick]]" chroming="danger">
         <span>
           <oj-bind-text value="[[resetButtonLabel]]"></oj-bind-text>
         </span>
       </oj-button>
-      <oj-button on-oj-action="[[onCreateButtonClick]]">
+      <oj-button on-oj-action="[[onCreateButtonClick]]" chroming="callToAction">
         <span>
           <oj-bind-text value="[[createButtonLabel]]"></oj-bind-text>
         </span>
@@ -109,4 +108,15 @@
   </div>
 
   <span><oj-bind-text value="[[inputCountryValue]]"></oj-bind-text></span>
+
+  <!-- Messages -->
+  <oj-messages
+    id="oj-messages-id"
+    class="oj-color-invert"
+    messages="[[messagesDataprovider]]"
+    display="notification"
+    display-options.category="auto"
+    position="[[messagesPosition]]"
+  ></oj-messages>
+  <!--Messages end-->
 </div>
