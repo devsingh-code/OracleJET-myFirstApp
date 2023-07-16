@@ -152,19 +152,19 @@ define([
       new ArrayDataProvider(
         [
           {
-            value: "IN",
+            value: 1,
             label: "India"
           },
           {
-            value: "US",
+            value: 2,
             label: "America"
           },
           {
-            value: "UK",
+            value: 3,
             label: "England"
           },
           {
-            value: "UAE",
+            value: 4,
             label: "Dubai"
           }
         ],
@@ -206,33 +206,33 @@ define([
     if (value) {
       this.inputStateValue(null);
       let statesArray;
-      if (value === "IN") {
+      if (value === 1) {
         statesArray = [
           {
-            value: "RJ",
+            value: 1,
             label: "Rajasthan"
           },
           {
-            value: "UKH",
+            value: 2,
             label: "Uttrakhand"
           },
           {
-            value: "MP",
+            value: 3,
             label: "Madhya Pradesh"
           },
           {
-            value: "NDLS",
+            value: 4,
             label: "New Delhi"
           }
         ];
       } else {
         statesArray = [
           {
-            value: "1",
+            value: 1,
             label: "Lisbon"
           },
           {
-            value: "2",
+            value: 2,
             label: "Porto"
           }
         ];
@@ -272,9 +272,30 @@ define([
       let dataFromService;
       try {
         dataFromService = await CustomerServices.saveCustomer(jsonServiceRequest);
-        console.log(dataFromService);
       } catch (error) {
-        console.log(error);
+        this.messagesDataprovider(
+          new ArrayDataProvider([
+            {
+              severity: "error",
+              detail: error.message,
+              timestamp: new Date().toISOString(),
+              autoTimeout: CoreUtils.getAutoTimeout()
+            }
+          ])
+        );
+      }
+      console.log(dataFromService);
+      if (dataFromService && dataFromService.success) {
+        this.messagesDataprovider(
+          new ArrayDataProvider([
+            {
+              severity: "confirmation",
+              detail: "Saved Successfully",
+              timestamp: new Date().toISOString(),
+              autoTimeout: CoreUtils.getAutoTimeout()
+            }
+          ])
+        );
       }
 
       // this.messagesDataprovider(
@@ -295,7 +316,7 @@ define([
    * @description Executred when user clicks reset button
    */
 
-  CustomerViewModel.prototype._onResetButtonClick = function () {
+  CustomerViewModel.prototype._onResetButtonClick = async function () {
     this.inputFirstNameValue(null);
     this.inputLastNameValue(null);
     this.inputFullNameValue(null);
