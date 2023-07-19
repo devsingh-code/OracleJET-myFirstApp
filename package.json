@@ -7,14 +7,36 @@
     "@oracle/oraclejet-core-pack": "~14.1.0"
   },
   "devDependencies": {
-    "extract-zip": "^1.7.0",
-    "fs-extra": "^8.1.0",
-    "glob": "7.2.0",
-    "underscore": "^1.10.2",
-    "@oracle/ojet-cli": "~14.1.0"
-  },
-  "engines": {
-    "node": ">=12.21.0"
-  },
-  "private": true
+    "@oracle/grunt-oraclejet": "6.2.0",
+    "@oracle/oraclejet-tooling": "^15.0.0",
+    "chai": "4.3.7",
+    "chai-as-promised": "7.1.1",
+    "cssmin": "0.4.3",
+    "grunt": "1.5.3",
+    "grunt-bumpup": "0.6.3",
+    "grunt-contrib-clean": "2.0.1",
+    "grunt-contrib-compress": "2.0.0",
+    "grunt-contrib-copy": "1.0.0",
+    "grunt-processhtml": "0.4.3",
+    "i": "0.3.7",
+    "karma": "6.4.1",
+    "karma-chai": "0.1.0",
+    "karma-chai-plugins": "0.9.0",
+    "karma-chai-sinon": "0.1.5",
+    "karma-coverage": "2.2.0",
+    "karma-firefox-launcher": "2.1.2",
+    "karma-mocha": "2.0.1",
+    "karma-requirejs": "1.1.0",
+    "karma-sinon": "1.0.5",
+    "karma-spec-reporter": "0.0.36",
+    "load-grunt-config": "4.0.1",
+    "mocha": "10.2.0",
+    "mocha-junit-reporter": "2.2.0",
+    "mocha-multi-reporters": "1.5.1",
+    "nyc": "15.1.0",
+    "puppeteer": "19.4.0",
+    "sinon": "15.0.1",
+    "sinon-chai": "3.7.0",
+    "xmlbuilder": "15.1.1"
+  }
 }

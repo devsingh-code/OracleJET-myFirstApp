@@ -71,6 +71,15 @@
       "country": 2,
       "state": 1,
       "id": 8
+    },
+    {
+      "firstName": "John ",
+      "lastName": "Wick",
+      "weight": 5,
+      "birthday": "2000-07-04",
+      "country": 1,
+      "state": 1,
+      "id": 9
     }
   ],
   "usersCountries": [
