@@ -9,7 +9,9 @@
  * Your about ViewModel code goes here
  */
 define(["../accUtils", "utils/Core"], function (accUtils, CoreUtils) {
-  function AboutViewModel() {
+  function AboutViewModel(receivedparams) {
+    // const { params } = receivedparams;
+    // console.log(params);
     // Below are a set of the ViewModel methods invoked by the oj-module component.
     // Please reference the oj-module jsDoc for additional information.
 

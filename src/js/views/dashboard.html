@@ -4,8 +4,28 @@
  as shown at https://oss.oracle.com/licenses/upl/
  -->
 <div class="oj-hybrid-padding">
-  <h1>Dashboard Content Area</h1>
   <div>
-      To change the content of this section, you will make edits to the dashboard.html file located in the /js/views folder.
+    <oj-chart
+      id="pieChart"
+      type="pie"
+      data="[[usersPieDataProvider]]"
+      animation-on-display="auto"
+      animation-on-data-change="auto"
+      selection-mode="single"
+      selection="[[userPieSelectionValue]]"
+      style-defaults.data-label-position="outsideSlice"
+      style-defaults.selection-effect="explode"
+      value-formats.value.converter="[[numberConverter]]"
+      legend.position="bottom"
+    >
+      <template slot="itemTemplate" data-oj-as="item">
+        <oj-chart-item
+          value="[[item.data.value]]"
+          label="[[numberConverter.format(item.data.value)]]"
+          group-id="[[ [item.data.group] ]]"
+          series-id="[[item.data.series]]"
+        ></oj-chart-item>
+      </template>
+    </oj-chart>
   </div>
 </div>
