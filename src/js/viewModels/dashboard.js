@@ -61,6 +61,9 @@ define([
   }
 
   DashboardViewModel.prototype._initVariables = async function () {
+    this.pieCharColor = function (seriesObject) {
+      return seriesObject.items[0].data.color;
+    };
     this.numberConverter = new ojconverter_number_1.IntlNumberConverter({
       minimumFractionDigits: 0,
       maximumFractionDigits: 0

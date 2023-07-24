@@ -26,6 +26,10 @@
           series-id="[[item.data.series]]"
         ></oj-chart-item>
       </template>
+
+      <template slot="seriesTemplate" data-oj-as="series">
+        <oj-chart-series color="[[pieCharColor(series)]]"></oj-chart-series>
+      </template>
     </oj-chart>
   </div>
 </div>
